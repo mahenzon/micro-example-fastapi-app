@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 
 from .schemas import (
     Item,
@@ -15,6 +15,10 @@ def get_items() -> list[Item]:
     return storage.get()
 
 
-@router.post("/", response_model=ItemRead)
+@router.post(
+    "/",
+    response_model=ItemRead,
+    status_code=status.HTTP_201_CREATED,
+)
 def create_item(item: ItemCreate) -> Item:
     return storage.add(item)
