@@ -28,7 +28,7 @@ uv --version
 Клонируем проект
 
 ```shell
-cd /var
+cd /opt
 git clone https://github.com/mahenzon/micro-example-fastapi-app.git
 ```
 
@@ -66,7 +66,7 @@ curl localhost:8000/items/
 Запускаем сервис в systemd
 
 ```shell
-nano /etc/systemd/system/fastapi_app.service
+sudo nano /etc/systemd/system/fastapi_app.service
 ```
 
 
@@ -79,15 +79,15 @@ After=network.target
 
 [Service]
 # your user
-User=root
+User=suren
 # your group
-Group=root
+Group=suren
 
 # Your project directory
-WorkingDirectory=/var/micro-example-fastapi-app
+WorkingDirectory=/opt/micro-example-fastapi-app
 
 # Using the binary inside .venv directly
-ExecStart=/var/micro-example-fastapi-app/.venv/bin/fastapi run app.py --host 127.0.0.1 --port 8000 --workers 2 --proxy-headers
+ExecStart=/opt/micro-example-fastapi-app/.venv/bin/fastapi run app.py --host 127.0.0.1 --port 8000 --workers 2 --proxy-headers
 
 # Environment configs
 Environment="PYTHONUNBUFFERED=1"
@@ -121,18 +121,18 @@ sudo journalctl -u fastapi_app -f
 Прокидываем статику к nginx, чтобы он это отдавал
 
 ```shell
-ln -s /var/micro-example-fastapi-app/static /usr/share/nginx/micro_fastapi_app_static
+ln -s /opt/micro-example-fastapi-app/static /usr/share/nginx/micro_fastapi_app_static
 ```
 
 Настраиваем доступ к файлам
 
 ```shell
 # даем доступ через папку
-chmod 711 /var/micro-example-fastapi-app
+chmod 711 /opt/micro-example-fastapi-app
 # даем доступ на чтение статики
-chmod 755 /var/micro-example-fastapi-app/static
+chmod 755 /opt/micro-example-fastapi-app/static
 # а питон файлы доступны только владельцу
-chmod 600 /var/micro-example-fastapi-app/*.py
+chmod 600 /opt/micro-example-fastapi-app/*.py
 ```
 
 
@@ -184,13 +184,13 @@ server {
 
 
 ```shell
-ln -s /etc/nginx/sites-available/micro_fastapi_app.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/micro_fastapi_app.conf /etc/nginx/sites-enabled/
 ```
 
 Проверяем конфигурацию. Должно быть всё ОК
 
 ```shell
-nginx -t
+sudo nginx -t
 ```
 
 
