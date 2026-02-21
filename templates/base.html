@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Base{% endblock %}</title>
+
+  <link rel="stylesheet" href="{{ url_for("static", path="/css/bootstrap.min.css") }}">
 </head>
 <body>
-{% block body %}
-Base body
-{% endblock %}
 
-{% block footer %}
-	<footer>
-  <small>&copy; 2026</small>
-  </footer>
-{% endblock %}
+<div class="container">
+  {% block body %}
+    Base body
+  {% endblock %}
+
+  {% block footer %}
+    <footer>
+      <small>&copy; 2026</small>
+    </footer>
+  {% endblock %}
+</div>
 </body>
 </html>
